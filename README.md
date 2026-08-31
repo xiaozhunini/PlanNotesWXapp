@@ -41,11 +41,12 @@ PlanNotesWXapp
 │       ├── index/                  #   首页（当前为模板演示页，待改造）
 │       └── logs/                   #   启动日志页（模板演示页）
 │
-├── typings/                        # 类型声明目录
+├── typings/                        # 类型声明目录（这下面得内容主要是用于给tsconfig.json去给 TypeScript 类型检查）
 │   └── types/wx/                   #   微信小程序官方 API 类型（lib.wx.api.d.ts 等）
 │
 ├── project.config.json             # 项目配置：AppID、编译插件（TS/SASS）、基础库版本
 ├── project.private.config.json     # 本地个人配置（不入库的个性化设置）
+├── .eslinttrc.json                 # ESLint 配置：代码规范检查配置
 ├── tsconfig.json                   # TypeScript 编译配置
 ├── package.json                    # 依赖管理（当前仅 miniprogram-api-typings）
 └── README.md                       # 项目说明
