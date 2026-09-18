@@ -1,6 +1,6 @@
 # PlanNotesWXapp 计划笔记小程序
 
-一款「年计划 → 周计划 → 日日程 → 每日反思」的个人规划类微信小程序。数据层当前基于本地存储实现，后续可平滑切换为后端 API。
+一款「年计划 → 日日程 → 每日反思」的个人规划类微信小程序。数据层当前基于本地存储实现，后续可平滑切换为后端 API。
 
 ## 技术栈
 
@@ -23,13 +23,13 @@ PlanNotesWXapp
 │   │   └── navigation-bar/         # 自定义导航栏（适配胶囊按钮位置，支持返回键）
 │   │
 │   ├── models/                     # 数据模型：与后端数据库表一一对应的类型定义
-│   │   └── index.ts                #   users / yearly_goals / weekly_plans /
+│   │   └── index.ts                #   users / goal_tag / yearly_goals /
 │   │                               #   daily_schedules / daily_reflections 及 RBAC 相关类型
 │   │
 │   ├── services/                   # 数据服务层：页面唯一的数据入口，增删改查都从这里调
 │   │   ├── user.ts                 #   用户服务：本地模拟单用户登录（users 表）
-│   │   ├── yearly-goal.ts          #   年计划 CRUD（yearly_goals 表）
-│   │   ├── weekly-plan.ts          #   周计划 CRUD，自动计算周结束日期（weekly_plans 表）
+│   │   ├── goal-tag.ts             #   标签 CRUD，区分系统标签(user_id=0)与用户标签（goal_tag 表）
+│   │   ├── yearly-goal.ts          #   年计划 CRUD，支持关联标签（yearly_goals 表）
 │   │   ├── daily-schedule.ts       #   日日程 CRUD、完成状态切换（daily_schedules 表）
 │   │   └── daily-reflection.ts     #   日反思读写，一天一条 upsert（daily_reflections 表）
 │   │
@@ -64,8 +64,8 @@ PlanNotesWXapp
 | 数据库表 | 服务文件 | 说明 |
 |---|---|---|
 | users | services/user.ts | 用户基础信息，本地模拟登录 |
-| yearly_goals | services/yearly-goal.ts | 年度目标，含进度与状态 |
-| weekly_plans | services/weekly-plan.ts | 周计划，可选关联年目标 |
+| goal_tag | services/goal-tag.ts | 标签管理，区分系统标签(user_id=0)与用户标签 |
+| yearly_goals | services/yearly-goal.ts | 年度目标，含进度、状态与标签关联 |
 | daily_schedules | services/daily-schedule.ts | 每日日程行（时间段/事项/评分） |
 | daily_reflections | services/daily-reflection.ts | 上午/下午反思与一日总结 |
 | roles / permissions 等RBAC表 | —（models 中仅类型） | 由后端 API 下发 |

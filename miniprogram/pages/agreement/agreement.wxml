@@ -1,0 +1,81 @@
+<!--pages/agreement/agreement.wxml-->
+<navigation-bar title="{{type === 'privacy' ? '隐私政策' : '用户服务协议'}}" back="{{true}}" />
+<scroll-view class="content" scroll-y>
+
+  <!-- 服务协议 -->
+  <view wx:if="{{type !== 'privacy'}}">
+    <text class="title">杰妮小规划用户服务协议</text>
+    <text class="update-date">更新日期：2026年8月31日</text>
+
+    <text class="section-title">一、服务说明</text>
+    <text class="paragraph">杰妮小规划（以下简称"本服务"）是一款个人目标规划与日程管理工具，提供年度计划、每日日程安排及反思复盘等功能。用户使用本服务即视为同意本协议全部条款。</text>
+
+    <text class="section-title">二、用户行为规范</text>
+    <text class="paragraph">1. 用户应合法使用本服务，不得利用本服务从事任何违反法律法规的行为。</text>
+    <text class="paragraph">2. 用户应保证所录入的计划内容、日程信息及反思记录的真实性与合法性。</text>
+    <text class="paragraph">3. 用户不得恶意干扰本服务的正常运行，包括但不限于破坏系统、传播恶意代码等。</text>
+
+    <text class="section-title">三、账号与登录</text>
+    <text class="paragraph">1. 本服务通过微信授权进行用户身份验证，用户授权微信登录即视为注册并登录本服务。</text>
+    <text class="paragraph">2. 用户选择手机号一键登录时，手机号信息经微信加密通道传输，本服务不会明文存储用户手机号。</text>
+    <text class="paragraph">3. 用户应妥善保管微信账号，因账号泄露导致的损失由用户自行承担。</text>
+
+    <text class="section-title">四、数据与存储</text>
+    <text class="paragraph">1. 用户在使用本服务过程中产生的计划、日程、反思等数据，所有权归用户本人所有。</text>
+    <text class="paragraph">2. 本服务当前阶段采用本地存储方式，数据保存在用户设备本地。用户卸载小程序或清理缓存可能导致数据丢失，建议重要数据自行备份。</text>
+    <text class="paragraph">3. 后续版本接入云端服务后，数据将通过加密传输存储在服务器端，本服务承诺不会将用户个人数据提供给第三方。</text>
+
+    <text class="section-title">五、知识产权</text>
+    <text class="paragraph">1. 本服务的界面设计、图标、代码及交互方式等知识产权归本服务所有。</text>
+    <text class="paragraph">2. 用户在使用本服务过程中产生的个人内容（计划、日程、反思等）知识产权归用户本人所有。</text>
+
+    <text class="section-title">六、免责声明</text>
+    <text class="paragraph">1. 本服务不保证数据在本地存储阶段的绝对安全性，因设备故障、系统重装等导致的数据丢失，本服务不承担责任。</text>
+    <text class="paragraph">2. 因不可抗力（包括但不限于网络故障、服务器维护、政策调整等）导致服务中断，本服务不承担责任。</text>
+    <text class="paragraph">3. 本服务提供的进度统计、评分等功能仅供参考，不构成任何专业建议。</text>
+
+    <text class="section-title">七、协议修改</text>
+    <text class="paragraph">本服务有权根据法律法规及业务发展需要修改本协议，修改后的协议将在小程序内公示。用户继续使用本服务即视为同意修改后的协议。</text>
+
+    <text class="section-title">八、联系我们</text>
+    <text class="paragraph">如对本协议有任何疑问，可通过小程序内的反馈功能与我们联系。</text>
+  </view>
+
+  <!-- 隐私政策 -->
+  <view wx:else>
+    <text class="title">杰妮小规划隐私政策</text>
+    <text class="update-date">更新日期：2026年8月31日</text>
+
+    <text class="section-title">一、信息收集</text>
+    <text class="paragraph">1. 微信授权信息：用户通过微信登录时，本服务获取微信提供的 openId 用于身份识别。</text>
+    <text class="paragraph">2. 手机号信息：用户选择手机号一键登录时，经微信官方 getPhoneNumber 组件获取加密手机号，用于账号绑定，不会明文展示或存储。</text>
+    <text class="paragraph">3. 用户内容：用户主动录入的年度计划、日程安排、反思总结等信息。</text>
+
+    <text class="section-title">二、信息使用</text>
+    <text class="paragraph">1. 所收集的信息仅用于提供本服务的核心功能（计划管理、日程安排、反思记录）。</text>
+    <text class="paragraph">2. 本服务承诺不会将用户个人信息出售或提供给任何第三方。</text>
+    <text class="paragraph">3. 不会在用户未授权的情况下向用户发送营销信息。</text>
+
+    <text class="section-title">三、信息存储</text>
+    <text class="paragraph">1. 当前阶段，用户数据采用本地存储，保存在用户设备本地，不上传至服务器。</text>
+    <text class="paragraph">2. 后续接入云端服务后，用户数据将经过加密后存储在安全的服务器环境中。</text>
+    <text class="paragraph">3. 本服务采取合理的技术措施保护用户数据安全，防止数据泄露、篡改或丢失。</text>
+
+    <text class="section-title">四、信息共享</text>
+    <text class="paragraph">在以下情形中，本服务可能需要共享用户信息：</text>
+    <text class="paragraph">1. 获得用户的明确同意后。</text>
+    <text class="paragraph">2. 根据法律法规或政府部门的强制要求。</text>
+    <text class="paragraph">除上述情形外，本服务不会与任何第三方共享用户个人信息。</text>
+
+    <text class="section-title">五、用户权利</text>
+    <text class="paragraph">1. 用户有权查看、修改自己录入的计划、日程及反思内容。</text>
+    <text class="paragraph">2. 用户可通过卸载小程序或清理缓存的方式删除本地存储的全部数据。</text>
+    <text class="paragraph">3. 用户有权选择不授权手机号，仅使用微信静默登录的基础功能。</text>
+
+    <text class="section-title">六、未成年人保护</text>
+    <text class="paragraph">本服务不针对未成年人设计。如发现未成年人在未经监护人同意的情况下使用本服务，请及时联系我们处理。</text>
+
+    <text class="section-title">七、政策更新</text>
+    <text class="paragraph">本隐私政策可能随业务发展进行更新，更新后的政策将在小程序内公示。用户继续使用本服务即视为同意更新后的隐私政策。</text>
+  </view>
+</scroll-view>

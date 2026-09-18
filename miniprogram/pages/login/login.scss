@@ -1,0 +1,455 @@
+/* pages/login/login.scss */
+/* 登录页样式：基于 DesignDrawing/登陆界面 设计稿转换 */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, #f4f8f6, #f8fbf9 50%, #edf4f0);
+  padding: 0 20px 34px;
+  box-sizing: border-box;
+}
+
+/* ============ 1. 品牌展示区 ============ */
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.logo-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.logo-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #006c49, #059669 50%, #10b981);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.32);
+  /* Skyline 不支持 outline，用 border + box-sizing 实现白色描边 */
+  border: 4px solid #ffffff;
+  box-sizing: border-box;
+}
+
+.logo-icon {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+.ring-outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+}
+
+.ring-mid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  transform: translate(-50%, -50%);
+}
+
+.dot-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translate(-50%, -50%);
+}
+
+.cross-h {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-50%);
+}
+
+.cross-v {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(-50%);
+}
+
+.badge-verified {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d1fae5;
+}
+
+.check-icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+.brand-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.brand-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #64748b;
+
+  .dot {
+    color: #cbd5e1;
+  }
+}
+
+/* ============ 2. 登录方式说明卡片 ============ */
+.auth-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(6, 95, 70, 0.05);
+  margin: 24px 0;
+}
+
+.auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.auth-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auth-header-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.auth-header-badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: #047857;
+  background: #ecfdf5;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* 登录方式条目 */
+.auth-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  margin-top: 14px;
+}
+
+.auth-item--phone {
+  background: rgba(248, 250, 252, 0.8);
+}
+
+.auth-item--silent {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.auth-item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.auth-item-icon--blue {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid rgba(219, 234, 254, 0.6);
+}
+
+.auth-item-icon--green {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid rgba(209, 250, 229, 0.6);
+}
+
+/* 手机图标（简化版 SVG 用 CSS 画） */
+.icon-phone {
+  width: 16px;
+  height: 18px;
+  border: 2px solid #2563eb;
+  border-radius: 3px;
+  position: relative;
+}
+
+.icon-phone::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #2563eb;
+  transform: translateX(-50%);
+}
+
+/* 闪电图标 */
+.icon-bolt {
+  width: 14px;
+  height: 18px;
+  background: #047857;
+  clip-path: polygon(55% 0, 0 55%, 45% 55%, 35% 100%, 100% 40%, 55% 40%);
+}
+
+.auth-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.auth-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.auth-item-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auth-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.auth-item-name--muted {
+  font-weight: 600;
+}
+
+.tag-recommend {
+  font-size: 10px;
+  font-weight: 600;
+  color: #047857;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.tag-muted {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+
+.auth-item-desc {
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.5;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ============ 3. 操作按钮区 ============ */
+.action-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 4px;
+}
+
+/* 手机号一键登录主按钮 */
+.btn-phone {
+  width: 100% !important;
+  height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(to right, #07c160, #10b981);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(7, 193, 96, 0.3);
+  border: none;
+  padding: 0;
+  margin: 0;
+
+}
+
+.btn-phone--active {
+  opacity: 0.85;
+}
+
+.btn-phone::after {
+  border: none;
+}
+
+.btn-phone-icon {
+  width: 16px;
+  height: 18px;
+  border: 2px solid #ffffff;
+  border-radius: 3px;
+  position: relative;
+}
+
+.btn-phone-icon::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translateX(-50%);
+}
+
+.btn-phone-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.btn-phone-tag {
+  font-size: 10.5px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  margin-left: 4px;
+}
+
+/* 静默登录按钮 */
+.btn-silent {
+  width: 100%;
+  height: 42px;
+  border-radius: 12px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.btn-silent--active {
+  background: #f8fafc;
+}
+
+.btn-silent-icon {
+  width: 12px;
+  height: 16px;
+  background: #10b981;
+  clip-path: polygon(55% 0, 0 55%, 45% 55%, 35% 100%, 100% 40%, 55% 40%);
+}
+
+.btn-silent-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+}
+
+/* 协议勾选 */
+.agreement-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding: 0 16px;
+}
+
+.agreement-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  /* 关键：强制不换行 */
+  overflow: hidden;
+  /* 隐藏超出部分 */
+  text-overflow: ellipsis;
+  /* 超出显示省略号 */
+  width: 100%;
+  /* 撑满父容器宽度 */
+}
+
+/* 缩小 checkbox 尺寸 */
+.agreement-label checkbox {
+  flex-shrink: 0 !important;
+  margin-top: 4rpx !important;
+  /* 微调 checkbox 位置，和第一行文字对齐 */
+}
+
+.agreement-label checkbox .wx-checkbox-input {
+  width: 32rpx !important;
+  height: 32rpx !important;
+}
+
+.agreement-text {
+  color: #666;
+  font-size: 12px;
+}
+
+.agreement-link {
+  color: #07c160;
+  font-size: 12px;
+  /* 可点击的视觉反馈 */
+}

@@ -8,6 +8,7 @@ const KEY = 'yearly_goals'
 
 export interface YearlyGoalInput {
   title: string
+  tagId?: number             // 关联标签ID
   description?: string
   targetYear?: number
   progress?: number
@@ -34,6 +35,7 @@ export async function addYearlyGoal(input: YearlyGoalInput): Promise<YearlyGoal>
   const goal: YearlyGoal = {
     id: nextId(KEY),
     userId: user.id,
+    tagId: input.tagId,                // 关联标签（可选）
     title: input.title.trim(),
     description: input.description || '',
     targetYear: input.targetYear || new Date().getFullYear(),

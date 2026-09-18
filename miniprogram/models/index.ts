@@ -55,10 +55,22 @@ export interface UserCredential {
   lastLoginIp?: string
 }
 
+/** 标签表 goal_tag */
+export interface GoalTag {
+  id: number
+  name: string              // name，标签名称（如：学习、健康）
+  icon?: string             // icon，标签图标 URL 或图标名
+  color?: string            // color，标签颜色（如 #FF6B6B）
+  userId: number            // user_id，创建者 ID（0 表示系统通用标签）
+  sortOrder: number        // sort_order，排序字段（值越小越靠前，默认 0）
+  createdAt: number         // created_at
+}
+
 /** 年计划表 yearly_goals */
 export interface YearlyGoal {
   id: number
   userId: number
+  tagId?: number            // tag_id，关联标签ID
   title: string
   description?: string      // 详细描述或关键结果
   targetYear: number        // target_year，如 2026
@@ -66,18 +78,6 @@ export interface YearlyGoal {
   yearlyStatus: 1 | 2 | 3   // yearly_status：1 进行中 / 2 已完成 / 3 已放弃
   createdAt: number
   updatedAt: number
-}
-
-/** 周计划表 weekly_plans */
-export interface WeeklyPlan {
-  id: number
-  userId: number
-  yearlyGoalId?: number     // yearly_goal_id，可选关联的年计划
-  weekStartDate: string     // week_start_date，'YYYY-MM-DD'，通常周一
-  weekEndDate: string       // week_end_date，'YYYY-MM-DD'，通常周日
-  content: string[]         // content，周计划内容列表（JSON 数组）
-  review: string            // review，周复盘/总结
-  createdAt: number
 }
 
 /** 日计划/日程表 daily_schedules */

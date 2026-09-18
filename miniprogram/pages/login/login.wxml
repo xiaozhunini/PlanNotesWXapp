@@ -1,0 +1,100 @@
+<!--pages/login/login.wxml-->
+<!-- 登录页：基于 DesignDrawing/登陆界面 设计稿 -->
+<view class="page" style="padding-top: {{statusBarHeight + 44}}px;">
+
+  <!-- 1. logo展示区 -->
+  <view class="brand-section">
+    <view class="logo-wrap">
+      <view class="logo-box">
+        <view class="logo-icon">
+          <view class="ring-outer"></view>
+          <view class="ring-mid"></view>
+          <view class="dot-center"></view>
+          <view class="cross-h"></view>
+          <view class="cross-v"></view>
+        </view>
+      </view>
+      <view class="badge-verified">
+        <image src="/images/login/verified.svg" class="check-icon" />
+      </view>
+    </view>
+    <text class="brand-title">杰妮小规划</text>
+    <view class="brand-subtitle">
+      <text>宏观战略拆解</text>
+      <text class="dot">·</text>
+      <text>微观日程自律</text>
+      <text class="dot">·</text>
+      <text>终身成长复盘</text>
+    </view>
+  </view>
+
+  <!-- 2. 登录方式说明卡片 -->
+  <view class="auth-card">
+    <view class="auth-header">
+      <view class="auth-header-left">
+        <image src="/images/login/verified.svg" class="check-icon" />
+        <text class="auth-header-title">登录方式与权限说明</text>
+      </view>
+      <text class="auth-header-badge">微信官方隐私合规</text>
+    </view>
+
+    <!-- 手机号一键登录说明 -->
+    <view class="auth-item auth-item--phone">
+      <view class="auth-item-icon auth-item-icon--blue">
+        <view class="icon-phone"></view>
+      </view>
+      <view class="auth-item-body">
+        <view class="auth-item-top">
+          <view class="auth-item-name-row">
+            <text class="auth-item-name">手机号一键登录</text>
+            <text class="tag-recommend">推荐完整体验</text>
+          </view>
+        </view>
+        <text class="auth-item-desc">微信官方组件授权，无须短信验证码，支持跨端全设备数据云同步与日程实时提醒。</text>
+      </view>
+    </view>
+
+    <!-- 静默登录说明 -->
+    <view class="auth-item auth-item--silent">
+      <view class="auth-item-icon auth-item-icon--green">
+        <view class="icon-bolt"></view>
+      </view>
+      <view class="auth-item-body">
+        <view class="auth-item-top">
+          <view class="auth-item-name-row">
+            <text class="auth-item-name auth-item-name--muted">微信静默登录</text>
+            <text class="tag-muted">无感快捷</text>
+          </view>
+        </view>
+        <text class="auth-item-desc">仅获取 openID 建立会话，不绑定手机号。本地数据不跨端，后续可在设置中补绑。</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 3. 操作按钮区 -->
+  <view class="action-section">
+    <!-- 手机号一键登录（微信原生 button，open-type 获取手机号） -->
+    <button class="btn-phone" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber" hover-class="btn-phone--active" disabled="{{!agreed}}">
+      <view class="btn-phone-icon"></view>
+      <text class="btn-phone-text">微信手机号一键登录</text>
+      <text class="btn-phone-tag">收费不推荐（没做）</text>
+    </button>
+
+    <!-- 静默登录 -->
+    <view class="btn-silent {{!agreed ? 'btn-disabled' : ''}}" bindtap="onSilentLogin">
+      <view class="btn-silent-icon"></view>
+      <text class="btn-silent-text">暂不绑定，微信静默直接进入</text>
+    </view>
+  </view>
+
+  <!-- 协议勾选区域 -->
+  <view class="agreement-row">
+    <label class="agreement-label">
+      <checkbox value="agree" checked="{{agreed}}" bindtap="toggleAgreement" color="#07c160" />
+      <text class="agreement-text">我已阅读并同意</text>
+      <text class="agreement-link" catchtap="openAgreement" data-type="service">《用户服务协议》</text>
+      <text class="agreement-text">和</text>
+      <text class="agreement-link" catchtap="openPrivacyPolicy" data-type="privacy">《隐私政策》</text>
+    </label>
+  </view>
+</view>

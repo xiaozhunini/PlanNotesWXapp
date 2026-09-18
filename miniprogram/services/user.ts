@@ -23,9 +23,7 @@ export async function getCurrentUser(): Promise<User | null> {
  * 接入 API 后改为 wx.login 换取 code → 后端换 openId → 落库并建立会话
  * @param profile 可选的昵称/头像（来自微信授权）
  */
-export async function ensureUser(
-  profile?: Partial<Pick<User, 'nickName' | 'avatarUrl'>>
-): Promise<User> {
+export async function ensureUser(profile?: Partial<Pick<User, 'nickName' | 'avatarUrl'>>): Promise<User> {
   const existing = await getCurrentUser()
   if (existing) return existing // 已有会话，直接返回，保证幂等
 
@@ -35,7 +33,7 @@ export async function ensureUser(
     id: nextId('users'), // 自增主键
     openId: `local_${now}`, // 接入后端后由 wx.login 换取
     unionId: '',
-    nickName: profile?.nickName || '微信用户',
+    nickName: profile && profile.nickName ? profile.nickName : '微信用户',
     avatarUrl: profile?.avatarUrl || '',
     phone: '',
     userStatus: 0, // 0 = 正常
