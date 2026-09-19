@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-CN" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>计划层级管理</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#10b981",
+            "primary-dark": "#059669",
+            "primary-light": "#d1fae5",
+            "primary-bg": "#ecfdf5",
+            surface: "#F8FAFC",
+            card: "#FFFFFF",
+            "dark-slate": "#0F172A",
+            "sub-slate": "#64748B",
+            "light-border": "#E2E8F0",
+            "tag-bg": "#F1F5F9"
+          },
+          fontFamily: {
+            sans: ["'Plus Jakarta Sans'", "'PingFang SC'", "'Hiragino Sans GB'", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      width: 375px;
+      height: 812px;
+      max-height: 812px;
+      margin: 0 auto;
+      overflow: hidden;
+      background-color: #F8FAFC;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .card-shadow {
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
+    }
+    .pill-shadow {
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2);
+    }
+  </style>
+</head>
+<body class="flex flex-col relative text-dark-slate antialiased font-sans">
+<!-- 1. 微信小程序顶部状态栏 & 原生胶囊栏 (Height: 88px) -->
+<header class="shrink-0 w-full bg-white/95 backdrop-blur-md z-40 border-b border-light-border/60">
+<!-- iOS Status Bar -->
+<div class="h-11 px-5 flex items-center justify-between text-xs font-semibold text-dark-slate pt-1">
+<span>9:41</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[16px]">wifi</span>
+<div class="w-5 h-2.5 border border-dark-slate rounded-sm p-0.5 flex items-center">
+<div class="h-full w-3 bg-dark-slate rounded-xs"></div>
+</div>
+</div>
+</div>
+<!-- WeChat Capsule & Page Title Bar -->
+<div class="h-11 px-4 flex items-center justify-between">
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><h1 class="text-[17px] font-bold tracking-tight text-dark-slate">年计划</h1><span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-50 text-primary border border-emerald-200/60">2024年度</span></div>
+<!-- WeChat Native Capsule Mockup -->
+<div class="w-[87px] h-8 rounded-full border border-[#E5E5E5] bg-white/90 flex items-center justify-evenly px-1 shadow-2xs">
+<button class="w-6 h-full flex items-center justify-center text-dark-slate">
+<span class="material-symbols-outlined text-[17px]">more_horiz</span>
+</button>
+<span class="w-[1px] h-4 bg-[#E0E0E0]"></span>
+<button class="w-6 h-full flex items-center justify-center text-dark-slate">
+<div class="w-3.5 h-3.5 rounded-full border-2 border-dark-slate flex items-center justify-center">
+<div class="w-1 h-1 rounded-full bg-dark-slate"></div>
+</div>
+</button>
+</div>
+</div>
+</header>
+<!-- 2. 主体可滚动区 (纵向内容充实，无大面积留白) -->
+<main class="flex-1 overflow-y-auto no-scrollbar px-3.5 py-2.5 space-y-3">
+<!-- 顶部大盘：年度战略宏观看板 (年度目标) -->
+<section class="bg-white rounded-2xl p-3.5 card-shadow border border-slate-100 relative overflow-hidden">
+<!-- 微透背景装饰光晕 -->
+<div class="absolute -right-6 -top-6 w-28 h-28 bg-emerald-100/50 rounded-full blur-2xl pointer-events-none"></div>
+<!-- 头部：标题与主进度 -->
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-teal-400 flex items-center justify-center text-white shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[22px]">radar</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h2 class="text-[15px] font-bold text-dark-slate">2024 年度战略规划</h2>
+<span class="text-[10px] font-semibold bg-emerald-100 text-primary-dark px-1.5 py-0.5 rounded">Q4 冲刺期</span>
+</div>
+<p class="text-[11px] text-sub-slate mt-0.5">自驱成长 · 核心战役穿透分解</p>
+</div>
+</div>
+<div class="text-right">
+<div class="text-[20px] font-extrabold text-primary leading-tight font-sans">68<span class="text-xs font-semibold">%</span></div>
+<span class="text-[10px] text-sub-slate font-medium">总体达成</span>
+</div>
+</div>
+<!-- 全局进度条 -->
+<div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden mt-3 relative">
+<div class="h-full bg-gradient-to-r from-emerald-400 to-primary rounded-full transition-all" style="width: 68%;"></div>
+</div>
+<!-- 紧凑 3 个数据指标块 -->
+<div class="grid grid-cols-3 gap-2 mt-3 pt-2.5 border-t border-slate-100"><div class="bg-slate-50/90 rounded-xl p-2 text-center border border-slate-100/80 flex flex-col items-center justify-center"><span class="text-[10px] text-sub-slate block">总计划数量</span><span class="text-xs font-bold text-dark-slate mt-0.5 inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>6 项规划</span></div><div class="bg-slate-50/90 rounded-xl p-2 text-center border border-slate-100/80 flex flex-col items-center justify-center"><span class="text-[10px] text-sub-slate block">已完成数量</span><span class="text-xs font-bold text-emerald-600 mt-0.5 inline-block">2 项目标</span></div><div class="bg-slate-50/90 rounded-xl p-2 text-center border border-slate-100/80 flex flex-col items-center justify-center"><span class="text-[10px] text-sub-slate block">年终倒计时</span><span class="text-xs font-bold text-dark-slate mt-0.5 inline-block">仅剩 68 天</span></div></div>
+</section>
+<!-- 中段导航与切换：分段视图选择器 (Segmented Control) -->
+<div class="flex items-center justify-between gap-2">
+<!-- 药丸胶囊栏 -->
+<div class="flex-1 bg-slate-200/70 p-1 rounded-xl flex items-center text-xs font-medium"><button class="flex-1 py-1.5 rounded-lg bg-emerald-500 text-white font-bold shadow-xs text-center transition-all flex items-center justify-center gap-1">
+  未完成
+</button>
+<button class="flex-1 py-1.5 rounded-lg text-sub-slate hover:text-dark-slate text-center transition-all flex items-center justify-center gap-1">
+  已完成
+</button>
+<button class="flex-1 py-1.5 rounded-lg text-sub-slate hover:text-dark-slate text-center transition-all flex items-center justify-center gap-1">
+  已放弃
+</button></div>
+<!-- 快速新建与展开 -->
+<button class="h-8 px-2.5 rounded-xl bg-white border border-slate-200 card-shadow flex items-center gap-1 text-[11px] font-semibold text-primary shrink-0 active:scale-95">
+<span class="material-symbols-outlined text-[14px]">add</span>新建
+      </button>
+</div>
+<!-- 筛选提示条 -->
+<div class="flex items-center justify-between px-1"><span class="text-[11px] font-bold text-sub-slate uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">checklist</span>年度目标清单 (4进行中)</span><span class="text-[10px] font-medium text-slate-400">按优先级排序</span></div>
+<!-- 4. 核心内容区：年-周-日穿透拆解卡片体系 -->
+<div class="space-y-3"><!-- 卡片 1: 全栈架构与微服务实战 --><div class="bg-white rounded-2xl p-3.5 card-shadow border border-slate-100 space-y-2.5 transition-all"><div class="flex items-start justify-between gap-2.5"><div class="flex items-start gap-2.5 flex-1 min-w-0"><div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">pending_actions</span></div><div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><h3 class="text-[13px] font-bold text-dark-slate truncate">全栈架构与微服务实战</h3><span class="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-blue-50 text-blue-600 border border-blue-100 shrink-0">技术成长</span></div><p class="text-[11px] text-sub-slate mt-0.5 line-clamp-1">掌握 FastAPI、Docker 容器化编排与微服务实战部署</p></div></div><div class="text-right shrink-0"><span class="text-xs font-extrabold text-primary font-sans">75%</span><span class="text-[10px] text-slate-400 block">进行中</span></div></div><div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden"><div class="h-full bg-primary rounded-full" style="width: 75%;"></div></div></div><!-- 卡片 2: 体能跃迁 · 半程马拉松完赛 --><div class="bg-white rounded-2xl p-3.5 card-shadow border border-slate-100 space-y-2.5 transition-all"><div class="flex items-start justify-between gap-2.5"><div class="flex items-start gap-2.5 flex-1 min-w-0"><div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">directions_run</span></div><div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><h3 class="text-[13px] font-bold text-dark-slate truncate">体能跃迁 · 半程马拉松完赛</h3><span class="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-amber-50 text-amber-600 border border-amber-100 shrink-0">健康活力</span></div><p class="text-[11px] text-sub-slate mt-0.5 line-clamp-1">保持每周训练节奏，冲刺35km周量，实现21km完赛</p></div></div><div class="text-right shrink-0"><span class="text-xs font-extrabold text-primary font-sans">80%</span><span class="text-[10px] text-slate-400 block">冲刺期</span></div></div><div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width: 80%;"></div></div></div><!-- 卡片 3: 精读12本专业原著与深度复盘 --><div class="bg-white rounded-2xl p-3.5 card-shadow border border-slate-100 space-y-2.5 transition-all"><div class="flex items-start justify-between gap-2.5"><div class="flex items-start gap-2.5 flex-1 min-w-0"><div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">menu_book</span></div><div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><h3 class="text-[13px] font-bold text-dark-slate truncate">精读12本专业原著与深度复盘</h3><span class="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-purple-50 text-purple-600 border border-purple-100 shrink-0">认知跃迁</span></div><p class="text-[11px] text-sub-slate mt-0.5 line-clamp-1">每月至少精读1本架构/商业著作，输出长篇复盘笔记</p></div></div><div class="text-right shrink-0"><span class="text-xs font-extrabold text-primary font-sans">33%</span><span class="text-[10px] text-slate-400 block">4/12 本</span></div></div><div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width: 33.3%;"></div></div></div><!-- 卡片 4: 掌握智能体Agent与工作流开发 --><div class="bg-white rounded-2xl p-3.5 card-shadow border border-slate-100 space-y-2.5 transition-all"><div class="flex items-start justify-between gap-2.5"><div class="flex items-start gap-2.5 flex-1 min-w-0"><div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">smart_toy</span></div><div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><h3 class="text-[13px] font-bold text-dark-slate truncate">掌握智能体Agent与工作流开发</h3><span class="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 shrink-0">AI应用</span></div><p class="text-[11px] text-sub-slate mt-0.5 line-clamp-1">熟练掌握多Agent协同框架，落地2个生产级自动化项目</p></div></div><div class="text-right shrink-0"><span class="text-xs font-extrabold text-primary font-sans">50%</span><span class="text-[10px] text-slate-400 block">进行中</span></div></div><div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width: 50%;"></div></div></div></div>
+</main>
+<!-- 5. 底部与交互纽带：今日执行挂钩轻量浮条 -->
+
+<!-- 6. 微信小程序标准 TabBar (4 项) + Home Indicator (Height: 84px) -->
+<nav class="shrink-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-100 z-40 flex flex-col">
+<div class="grid grid-cols-4 items-center h-12 px-2">
+<!-- Tab 1: 计划层级 (Active) -->
+<a class="flex flex-col items-center justify-center text-primary" href="#"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">flag</span><span class="text-[10px] font-bold mt-0.5">年计划</span></a>
+<!-- Tab 2: 今日日程 -->
+<a class="flex flex-col items-center justify-center text-sub-slate hover:text-dark-slate" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span class="text-[10px] font-medium mt-0.5">今日日程</span>
+</a>
+<!-- Tab 3: 统计复盘 -->
+<a class="flex flex-col items-center justify-center text-sub-slate hover:text-dark-slate" href="#">
+<span class="material-symbols-outlined text-[20px]">insights</span>
+<span class="text-[10px] font-medium mt-0.5">统计复盘</span>
+</a>
+<!-- Tab 4: 我的 -->
+<a class="flex flex-col items-center justify-center text-sub-slate hover:text-dark-slate" href="#">
+<span class="material-symbols-outlined text-[20px]">person</span>
+<span class="text-[10px] font-medium mt-0.5">我的</span>
+</a>
+</div>
+<!-- iPhone 底部安全区横条 (Home Indicator) -->
+<div class="h-6 w-full flex items-center justify-center">
+<div class="w-32 h-1 bg-slate-300 rounded-full"></div>
+</div>
+</nav>
+
+
+</body></html>

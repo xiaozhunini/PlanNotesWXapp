@@ -1,13 +1,48 @@
 {
   "pages": [
     "pages/login/login",
-    "pages/index/index",
-    "pages/logs/logs",
-    "pages/agreement/agreement"
+    "pages/agreement/agreement",
+    "pages/flag/flag",
+    "pages/calendar/calendar",
+    "pages/insights/insights",
+    "pages/person/person"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationStyle": "custom"
+    "navigationStyle": "custom",
+    "navigationBarTitleText": "记账小程序"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#07c160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/flag/flag",
+        "text": "年计划",
+        "iconPath": "images/Navigation/flag-outline.png",
+        "selectedIconPath": "images/Navigation/flag-filled.png"
+      },
+      {
+        "pagePath": "pages/calendar/calendar",
+        "text": "今日计划",
+        "iconPath": "images/Navigation/calendar-outline.png",
+        "selectedIconPath": "images/Navigation/calendar-filled.png"
+      },
+      {
+        "pagePath": "pages/insights/insights",
+        "text": "统计复盘",
+        "iconPath": "images/Navigation/insights-outline.png",
+        "selectedIconPath": "images/Navigation/insights-filled.png"
+      },
+      {
+        "pagePath": "pages/person/person",
+        "text": "我的",
+        "iconPath": "images/Navigation/person-outline.png",
+        "selectedIconPath": "images/Navigation/person-filled.png"
+      }
+    ]
   },
   "style": "v2",
   "rendererOptions": {

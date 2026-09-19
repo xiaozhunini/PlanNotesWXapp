@@ -73,10 +73,10 @@ Page({
       // 5. 弹出成功提示，持续 800 毫秒
       wx.showToast({ title: "登录成功", icon: "success", duration: 800 });
 
-      // 6. 等 600 毫秒（让用户看到"登录成功"的提示），然后用 redirectTo 跳转到首页
-      // redirectTo 会关闭当前登录页，用户无法返回到登录页
+      // 6. 等 600 毫秒（让用户看到"登录成功"的提示），然后用 switchTab 跳转到首页
+      // switchTab 会关闭当前登录页，用户无法返回到登录页
       setTimeout(() => {
-        wx.redirectTo({ url: "/pages/index/index" });
+        wx.switchTab({ url: "/pages/flag/flag" });
       }, 600);
     } catch (e) {
       // 7. 如果上面任何一步报错（网络失败、接口报错等），进入 catch 分支
