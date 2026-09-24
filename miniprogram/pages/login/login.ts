@@ -1,92 +1,79 @@
 // pages/login/login.ts
-import { ensureUser } from "../../services/user";
+import { login } from '../../services/user'
 
 Page({
   data: {
     statusBarHeight: 20,
-    agreed: false, // ✅ 改为 false
+    agreed: false,
   },
 
   onLoad() {
-    const sysInfo = wx.getWindowInfo();
-    this.setData({ statusBarHeight: sysInfo.statusBarHeight || 20 });
+    const sysInfo = wx.getWindowInfo()
+    this.setData({ statusBarHeight: sysInfo.statusBarHeight || 20 })
   },
 
   /** 切换协议勾选状态 */
   toggleAgreement() {
-    this.setData({ agreed: !this.data.agreed });
+    this.setData({ agreed: !this.data.agreed })
   },
 
-  /** 打开协议页面 */
+  /** 打开协议页面（service=用户服务协议） */
   openAgreement(e: WechatMiniprogram.BaseEvent) {
-    const type = (e.currentTarget.dataset as { type: string }).type;
-    wx.navigateTo({ url: `/pages/agreement/agreement?type=${type}` });
-  },
-  /** 打开隐政策 */
-  openPrivacyPolicy() {
-    wx.openPrivacyContract(); // 一行搞定
+    const type = (e.currentTarget.dataset as { type: string }).type
+    wx.navigateTo({ url: `/pages/agreement/agreement?type=${type}` })
   },
 
-  /** 手机号一键登录回调 */
-  async onGetPhoneNumber(e: WechatMiniprogram.ButtonGetPhoneNumber) {
+  /** 打开隐私政策页面 */
+  openPrivacyPolicy(e: WechatMiniprogram.BaseEvent) {
+    const type = (e.currentTarget.dataset as { type: string }).type || 'privacy'
+    wx.navigateTo({ url: `/pages/agreement/agreement?type=${type}` })
+  },
+
+  /** 手机号一键登录回调（按钮 open-type=getPhoneNumber 触发） */
+  async onGetPhoneNumber(_e: WechatMiniprogram.ButtonGetPhoneNumber) {
     if (!this.data.agreed) {
-      this.shakeAgreement();
-      return;
+      this.shakeAgreement()
+      return
     }
-
-    if (e.detail.errMsg !== "getPhoneNumber:ok") {
-      await this.doLogin();
-      return;
-    }
-
-    await this.doLogin();
+    await this.doLogin()
   },
 
-  /** 静默登录 */
+  /** 微信静默登录按钮：未勾选协议时提示 */
   async onSilentLogin() {
     if (!this.data.agreed) {
-      this.shakeAgreement();
-
-      return;
+      this.shakeAgreement()
+      return
     }
-    await this.doLogin();
+    await this.doLogin()
   },
 
-  /** 核心登录流程 */
+  /**
+   * 核心登录流程：
+   * wx.login 拿 code → POST /api/Auth/login { code, nickName, avatarUrl }
+   * → 后端自动注册/登录返回令牌包 → 存令牌 → GET /api/Auth/me 拿用户 → 跳首页
+   * 占位资料方案：nickName/avatarUrl 用默认值，用户后续在个人中心补全
+   */
   async doLogin() {
-    // 1. 显示加载弹窗，mask: true 防止用户点击穿透（防止用户在加载时乱点按钮）
-    wx.showLoading({ title: "登录中...", mask: true });
-
+    wx.showLoading({ title: '登录中...', mask: true })
     try {
-      // 2. 调用你自己封装的 ensureUser() 服务函数
-      // 这个函数内部应该包含了：wx.login() 获取 code → 调用你的后端接口换取用户信息
-      const user = await ensureUser();
+      const user = await login()
+      const app = getApp<IAppOption>()
+      app.globalData.user = user
 
-      // 3. 获取小程序全局实例，把登录成功的用户信息存到 globalData 里
-      // 这样其他页面也能通过 getApp().globalData.user 拿到当前用户信息
-      const app = getApp<IAppOption>();
-      app.globalData.user = user as any;
+      wx.hideLoading()
+      wx.showToast({ title: '登录成功', icon: 'success', duration: 800 })
 
-      // 4. 隐藏加载弹窗
-      wx.hideLoading();
-
-      // 5. 弹出成功提示，持续 800 毫秒
-      wx.showToast({ title: "登录成功", icon: "success", duration: 800 });
-
-      // 6. 等 600 毫秒（让用户看到"登录成功"的提示），然后用 switchTab 跳转到首页
-      // switchTab 会关闭当前登录页，用户无法返回到登录页
       setTimeout(() => {
-        wx.switchTab({ url: "/pages/flag/flag" });
-      }, 600);
+        wx.switchTab({ url: '/pages/flag/flag' })
+      }, 600)
     } catch (e) {
-      // 7. 如果上面任何一步报错（网络失败、接口报错等），进入 catch 分支
-      wx.hideLoading();
-      wx.showToast({ title: "登录失败，请重试", icon: "none" });
+      wx.hideLoading()
+      wx.showToast({ title: '登录失败，请重试', icon: 'none' })
     }
   },
 
-  /** 协议未勾选时的抖动提示 */
+  /** 协议未勾选时的提示 */
   shakeAgreement() {
-    wx.showToast({ title: "请先阅读并同意协议", icon: "none", duration: 1500 });
+    wx.showToast({ title: '请先阅读并同意协议', icon: 'none', duration: 1500 })
   },
-});
+})

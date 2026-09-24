@@ -1,9 +1,15 @@
-/// <reference path="./types/index.d.ts" />
+// app.d.ts
+declare module 'miniprogram-api-typings' {
+  namespace App {
+    interface Instance<T> {
+      loginReady?: Promise<void>
+    }
+  }
+}
 
 interface IAppOption {
   globalData: {
-    userInfo?: WechatMiniprogram.UserInfo,
-    user?: import('./miniprogram/models').User,
+    user: any
   }
-  userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
+  loginReady: Promise<void>
 }

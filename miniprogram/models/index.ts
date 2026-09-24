@@ -6,14 +6,15 @@
 export interface User {
   id: number
   openId: string          // open_id
-  unionId?: string        // union_id
-  nickName: string        // nick_name
-  avatarUrl: string       // avatar_url
-  phone?: string          // phone（加密存储）
+  unionId?: string | null // union_id（可能为 null）
+  nickName?: string       // nick_name（后端可能为 null）
+  avatarUrl?: string | null // avatar_url（后端可能为 null）
+  phone?: string | null   // phone（加密存储，可能为 null）
+  roleType: number        // role_type：1=普通用户
   userStatus: 0 | 1       // user_status：0 正常 / 1 禁用
-  lastLoginTime?: number  // last_login_time
-  createdAt: number       // created_at
-  updatedAt: number       // updated_at
+  lastLoginTime?: string | null // last_login_time，ISO 字符串
+  createdAt: string       // created_at，ISO 字符串
+  updatedAt?: string | null // updated_at，ISO 字符串
 }
 
 /** 角色表 roles（后端管理使用，本地不持久化） */

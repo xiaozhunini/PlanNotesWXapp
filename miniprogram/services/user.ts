@@ -1,68 +1,107 @@
 // services/user.ts
-// 用户服务：本地版用存储模拟单用户登录，接入 API 后替换为 wx.login 换取 token 的流程
-import { read, write, nextId } from '../utils/storage'
-import { User } from '../models'
+// 用户服务：wx.login 拿 code → 后端 /api/Auth/login 自动注册/登录 → 返回令牌包
+// 登录响应不含 user，需另调 /api/Auth/me 获取用户信息
+// 首次登录用占位 nickName/avatarUrl，用户后续在个人中心补全
 
-const USERS_KEY = 'users'
-const CURRENT_USER_ID_KEY = 'current_user_id'
+import { request } from '../utils/request'
+import {
+  setTokenBundle,
+  clearTokens,
+  getAccessToken,
+  hasAccessToken,
+} from '../utils/token'
+import { API } from '../api/endpoints'
+import type { TokenBundle } from '../utils/token'
+import type { User } from '../models'
 
-/**
- * 获取当前登录用户
- * 等价 SQL：SELECT * FROM users WHERE id = <当前会话的 id>
- * @returns 未登录时返回 null
- */
-export async function getCurrentUser(): Promise<User | null> {
-  const users = read<User[]>(USERS_KEY, []) // 读出 users 表全部行
-  const id = read<number>(CURRENT_USER_ID_KEY, 0) // 读“当前会话”记录的 user_id
-  return users.find(u => u.id === id) || null // 按 id 找行，找不到说明未登录
+/** wx.login 的 Promise 包装，返回临时 code */
+function wxLogin(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    wx.login({
+      success: (res) => resolve(res.code),
+      fail: (err) => reject(err),
+    })
+  })
 }
 
-/**
- * 确保存在当前用户（首次使用时自动创建，模拟注册）
- * 幂等设计：调用方永远不用判断“有没有用户”，第一次调用会自动注册并建立会话
- * 接入 API 后改为 wx.login 换取 code → 后端换 openId → 落库并建立会话
- * @param profile 可选的昵称/头像（来自微信授权）
- */
-export async function ensureUser(profile?: Partial<Pick<User, 'nickName' | 'avatarUrl'>>): Promise<User> {
-  const existing = await getCurrentUser()
-  if (existing) return existing // 已有会话，直接返回，保证幂等
+/** 默认占位资料（用户选择占位值方案：登录后由用户在个人中心补全） */
+const DEFAULT_NICKNAME = '微信用户'
+const DEFAULT_AVATAR = ''
 
-  const now = Date.now()
-  // 构造一行新数据，模拟 INSERT INTO users ...
-  const user: User = {
-    id: nextId('users'), // 自增主键
-    openId: `local_${now}`, // 接入后端后由 wx.login 换取
-    unionId: '',
-    nickName: profile && profile.nickName ? profile.nickName : '微信用户',
-    avatarUrl: profile?.avatarUrl || '',
-    phone: '',
-    userStatus: 0, // 0 = 正常
-    lastLoginTime: now,
-    createdAt: now,
-    updatedAt: now,
-  }
-  const users = read<User[]>(USERS_KEY, [])
-  users.push(user) // 追加到“表”
-  write(USERS_KEY, users) // 写回整张表
-  write(CURRENT_USER_ID_KEY, user.id) // 建立会话：记录当前 user_id
+/**
+ * 微信登录
+ * 1. wx.login 拿 code
+ * 2. POST /api/Auth/login { code, nickName, avatarUrl }（skipAuth）
+ *    - 后端首次登录自动注册，返回完整令牌包
+ * 3. 存储令牌包
+ * 4. GET /api/Auth/me 拉取用户信息（用刚拿到的 accessToken）
+ * @param nickName 昵称，默认占位
+ * @param avatarUrl 头像 URL，默认空字符串（后端可存 null）
+ * @returns 当前登录用户
+ */
+export async function login(
+  nickName: string = DEFAULT_NICKNAME,
+  avatarUrl: string = DEFAULT_AVATAR
+): Promise<User> {
+  const code = await wxLogin()
+  const bundle = await request<TokenBundle>({
+    url: API.auth.login,
+    method: 'POST',
+    data: { code, nickName, avatarUrl },
+    skipAuth: true,
+  })
+  setTokenBundle(bundle)
+  // 登录响应只含令牌，用户信息单独拉取
+  const user = await getCurrentUser()
+  if (!user) throw new Error('登录后获取用户信息失败')
   return user
 }
 
 /**
+ * 获取当前登录用户信息
+ * 后端从 accessToken 解析 userId，返回对应用户
+ * @returns 未登录（无 accessToken）时返回 null，不发请求
+ */
+export async function getCurrentUser(): Promise<User | null> {
+  if (!hasAccessToken()) return null
+  return request<User>({
+    url: API.auth.me,
+    method: 'GET',
+  })
+}
+
+/**
  * 更新当前用户资料（昵称/头像/手机号）
- * 等价 SQL：UPDATE users SET <patch 字段>, updated_at = NOW() WHERE id = <当前 id>
- * @param patch 只允许传昵称/头像/手机号，其他字段（如 openId/状态）不开放给前端改
- * @returns 更新后的用户；未登录返回 null
+ * @param patch 待更新字段
  */
 export async function updateCurrentUser(
   patch: Partial<Pick<User, 'nickName' | 'avatarUrl' | 'phone'>>
 ): Promise<User | null> {
-  const users = read<User[]>(USERS_KEY, [])
-  const id = read<number>(CURRENT_USER_ID_KEY, 0)
-  const index = users.findIndex(u => u.id === id)
-  if (index === -1) return null // 未登录，无法更新
-  // 对象展开合并：patch 传了什么就覆盖什么，没传的保持原值，同时刷新 updated_at
-  users[index] = { ...users[index], ...patch, updatedAt: Date.now() }
-  write(USERS_KEY, users)
-  return users[index]
+  return request<User>({
+    url: API.auth.me,
+    method: 'PUT',
+    data: patch,
+  })
+}
+
+/**
+ * 退出登录：清除本地令牌与认证状态
+ * 注：后端未提供令牌注销接口，如需服务端失效 refreshToken，
+ *     后端补 POST /api/Auth/logout 后在此处补充调用即可。
+ */
+export function logout(): void {
+  clearTokens()
+  // 清除全局用户态
+  const app = getApp<IAppOption>()
+  app.globalData.user = undefined
+}
+
+/** 令牌是否就绪（用于 UI 判断登录态） */
+export function isAuthenticated(): boolean {
+  return hasAccessToken()
+}
+
+/** 兼容：读取当前 accessToken */
+export function getToken(): string {
+  return getAccessToken()
 }

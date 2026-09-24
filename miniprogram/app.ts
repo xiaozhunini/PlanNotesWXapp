@@ -2,20 +2,20 @@
 import { getCurrentUser } from './services/user'
 
 App<IAppOption>({
-  globalData: {},
+  globalData: {user: null },
+  loginReady: Promise.resolve(),  // 默认值，防止 onLaunch 之前就被访问
   onLaunch() {
-    // 记录启动日志（保留模板能力）
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录流程：检查本地是否已有用户会话
-    // 有 → 直接存入 globalData，首页可读取
-    // 无 → 登录页会调 ensureUser 自动注册（本地阶段）
-    const user = getCurrentUser()
-    if (user) {
-      this.globalData.user = user
-    }
-    // 接入 API 后改为：检查 token 有效性 → wx.login 换 code → 后端换 token
+    // 启动时检查令牌：有 accessToken 才请求 /api/Auth/me
+    // - accessToken 临近过期 → request 层主动用 refreshToken 换新后重发
+    // - accessToken 过期 / 无效 → request 层被动刷新后重发
+    // - refreshToken 也失效（403）→ request 层清令牌并跳转登录页
+    // - 完全无令牌 → getCurrentUser 返回 null，登录页主动引导
+    this.loginReady =  getCurrentUser()
+      .then((user) => {
+        if (user) this.globalData.user = user
+      })
+      .catch(() => {
+        // 网络错误等静默处理，登录页兜底
+      })
   },
 })

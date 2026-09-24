@@ -7,6 +7,7 @@
     "pages/insights/insights",
     "pages/person/person"
   ],
+  "entryPagePath": "pages/flag/flag", 
   "window": {
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom",

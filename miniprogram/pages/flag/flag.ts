@@ -25,8 +25,14 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow() {
-
+  async  onShow() {
+    const app = getApp<IAppOption>()
+    if (app && app.loginReady) {
+      await app.loginReady
+      if (!app.globalData.user) {
+        wx.redirectTo({ url: '/pages/login/login' })
+      }
+    }
   },
 
   /**

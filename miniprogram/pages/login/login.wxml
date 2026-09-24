@@ -74,7 +74,7 @@
   <!-- 3. 操作按钮区 -->
   <view class="action-section">
     <!-- 手机号一键登录（微信原生 button，open-type 获取手机号） -->
-    <button class="btn-phone" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber" hover-class="btn-phone--active" disabled="{{!agreed}}">
+    <button class="btn-phone" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber" hover-class="btn-phone--active" disabled="{{!ture}}">
       <view class="btn-phone-icon"></view>
       <text class="btn-phone-text">微信手机号一键登录</text>
       <text class="btn-phone-tag">收费不推荐（没做）</text>
